@@ -1,15 +1,13 @@
 <template>
-  <hello-world />
+  <v-container fill-height>
+    <v-row align="center" justify="center">
+      <v-img max-height="300" max-width="300" src="@/assets/logo.png" />
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import HelloWorld from "../components/HelloWorld";
-
 export default {
   name: "Home",
-
-  components: {
-    HelloWorld,
-  },
 };
 </script>
