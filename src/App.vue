@@ -3,7 +3,7 @@
     <v-app-bar app flat color="transparent">
       <v-spacer />
 
-      <v-btn to="login" text>
+      <v-btn v-if="$route.name !== 'Login'" to="login" text>
         <span class="mr-2">Login</span>
         <v-icon>mdi-login</v-icon>
       </v-btn>
