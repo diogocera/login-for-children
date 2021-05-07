@@ -43,9 +43,10 @@ export default {
     return {
       email: "",
       emailRules: [
-        (value) => !!value || "Please, write your e-mail on this box.",
         (value) =>
-          /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(value) ||
+          this.isInputFilled(value) || "Please, write your e-mail on this box.",
+        (value) =>
+          this.isEmailValid(value) ||
           "Your e-mail should look something like yourname@email.com.",
       ],
 
@@ -53,15 +54,29 @@ export default {
       showPassword: false,
       passwordRules: {
         required: (value) =>
-          !!value || "Please, write your password on this box.",
+          this.isInputFilled(value) ||
+          "Please, write your password on this box.",
         min: (value) =>
-          value.length >= 8 ||
+          this.doesPasswordHaveMinNumberCharacters(value) ||
           "It should have at least 8 characters (letters, numbers, or special characters like #@_",
-        emailMatch: () => "The e-mail and password given don't match.",
       },
 
       valid: false,
     };
+  },
+
+  methods: {
+    isInputFilled(value) {
+      return !!value;
+    },
+
+    isEmailValid(value) {
+      return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(value);
+    },
+
+    doesPasswordHaveMinNumberCharacters(value) {
+      return value.length >= 8;
+    },
   },
 };
 </script>
