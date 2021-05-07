@@ -1,9 +1,9 @@
 <template>
   <v-app style="background-color: #ffdaca">
-    <v-app-bar app flat color="transparent">
+    <v-app-bar v-if="$route.name !== 'Login'" app flat color="transparent">
       <v-spacer />
 
-      <v-btn v-if="$route.name !== 'Login'" to="login" text>
+      <v-btn to="login" text>
         <span class="mr-2">Login</span>
         <v-icon>mdi-login</v-icon>
       </v-btn>
