@@ -131,4 +131,49 @@ describe("Login.vue", () => {
       expect(actualValue).toBeTruthy;
     });
   });
+
+  describe("doesPasswordHaveMinNumberCharacters method", () => {
+    beforeEach(() => {
+      wrapper = shallowMount(Login, {
+        localVue,
+        vuetify,
+      });
+    });
+
+    it("returns false when an empty string is passed", () => {
+      const inputValue = "";
+
+      const actualValue = wrapper.vm.doesPasswordHaveMinNumberCharacters(
+        inputValue
+      );
+      expect(actualValue).toBeFalsy();
+    });
+
+    it("returns false when a string with less than 8 characters is passed", () => {
+      const inputValue = "Ab1_";
+
+      const actualValue = wrapper.vm.doesPasswordHaveMinNumberCharacters(
+        inputValue
+      );
+      expect(actualValue).toBeFalsy();
+    });
+
+    it("returns true when a string with 8 characters is passed", () => {
+      const inputValue = "AbC@123_";
+
+      const actualValue = wrapper.vm.doesPasswordHaveMinNumberCharacters(
+        inputValue
+      );
+      expect(actualValue).toBeTruthy;
+    });
+
+    it("returns true when a string with more than 8 characters is passed", () => {
+      const inputValue = "AbC@123_Zyx";
+
+      const actualValue = wrapper.vm.doesPasswordHaveMinNumberCharacters(
+        inputValue
+      );
+      expect(actualValue).toBeTruthy;
+    });
+  });
 });
