@@ -42,13 +42,7 @@ export default {
   data() {
     return {
       email: "",
-      emailRules: [
-        (value) =>
-          this.isInputFilled(value) || "Please, write your e-mail on this box.",
-        (value) =>
-          this.isEmailValid(value) ||
-          "Your e-mail should look something like yourname@email.com.",
-      ],
+      emailRules: [(value) => this.getEmailValidationMessage(value)],
 
       password: "",
       showPassword: false,
@@ -66,6 +60,15 @@ export default {
   },
 
   methods: {
+    getEmailValidationMessage(value) {
+      if (!this.isInputFilled(value)) {
+        return "Please, write your e-mail on this box.";
+      } else if (!this.isEmailValid(value)) {
+        return "Your e-mail should look something like yourname@email.com.";
+      }
+      return true;
+    },
+
     isInputFilled(value) {
       return !!value;
     },
