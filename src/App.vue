@@ -3,10 +3,7 @@
     <v-app-bar v-if="$route.name !== 'Login'" app flat color="transparent">
       <v-spacer />
 
-      <v-btn to="login" text>
-        <span class="mr-2">Login</span>
-        <v-icon>mdi-login</v-icon>
-      </v-btn>
+      <app-nav-login-button />
     </v-app-bar>
 
     <v-main>
@@ -16,7 +13,11 @@
 </template>
 
 <script>
+import AppNavLoginButton from "./components/AppNavLoginButton.vue";
+
 export default {
+  components: { AppNavLoginButton },
+
   name: "App",
 
   data: () => ({
