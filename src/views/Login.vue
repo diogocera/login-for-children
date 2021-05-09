@@ -3,7 +3,7 @@
     <v-row align="center" justify="center">
       <v-card>
         <v-card-text primary-title>
-          <v-form v-model="valid" class="ma-5">
+          <v-form v-model="formIsValid" :disabled="loading" class="ma-5">
             <v-text-field
               v-model="email"
               :rules="emailRules"
@@ -26,7 +26,41 @@
             />
 
             <v-row justify="center">
-              <v-btn flat color="primary" :disabled="!valid">Login</v-btn>
+              <v-btn
+                text
+                color="primary"
+                :disabled="!formIsValid"
+                :loading="loading"
+                @click="tryLogin"
+              >
+                Login
+              </v-btn>
+
+              <v-snackbar
+                v-model="showLoginErrorMessage"
+                :timeout="4000"
+                color="error"
+                multi-line
+              >
+                <span
+                  >No match was found for the combination of e-mail and password
+                  given.
+                </span>
+                <v-icon>mdi-emoticon-sad</v-icon>
+                <br />
+                <span> Try again!</span>
+                <v-icon>mdi-emoticon-wink</v-icon>
+
+                <template v-slot:action="{ attrs }">
+                  <v-btn
+                    icon
+                    v-bind="attrs"
+                    @click="showLoginErrorMessage = false"
+                  >
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </template>
+              </v-snackbar>
             </v-row>
           </v-form>
         </v-card-text>
@@ -36,6 +70,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Login",
 
@@ -55,11 +91,16 @@ export default {
           "It should have at least 8 characters (letters, numbers, or special characters like #@_",
       },
 
-      valid: false,
+      formIsValid: false,
+
+      showLoginErrorMessage: false,
+      loading: false,
     };
   },
 
   methods: {
+    ...mapActions(["login"]),
+
     getEmailValidationMessage(value) {
       if (!this.isInputFilled(value)) {
         return "Please, write your e-mail on this box.";
@@ -79,6 +120,19 @@ export default {
 
     doesPasswordHaveMinNumberCharacters(value) {
       return value.length >= 8;
+    },
+
+    async tryLogin() {
+      if (this.formIsValid)
+        try {
+          this.loading = true;
+          await this.login({ email: this.email, password: this.password });
+          this.$router.push("/");
+        } catch (e) {
+          this.showLoginErrorMessage = true;
+        } finally {
+          this.loading = false;
+        }
     },
   },
 };
