@@ -1,6 +1,6 @@
 <template>
   <v-app style="background-color: #ffdaca">
-    <app-nav-bar v-if="$route.name !== 'Login'" />
+    <app-nav-bar v-if="$route.path !== '/login'" />
 
     <v-main>
       <router-view />
