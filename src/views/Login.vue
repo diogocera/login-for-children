@@ -52,42 +52,13 @@
               </template>
             </v-text-field>
 
-            <v-row justify="center">
-              <v-btn
-                color="primary"
-                :disabled="!formIsValid"
-                :loading="loading"
-                @click="tryLogin"
-                ref="login-button"
-              >
-                Login
-              </v-btn>
-
-              <v-snackbar
-                v-model="showLoginErrorMessage"
-                color="error"
-                multi-line
-              >
-                <span>
-                  No match was found for the combination of e-mail and password
-                  given.
-                </span>
-                <v-icon>mdi-emoticon-sad</v-icon>
-                <br />
-                <span> Try again!</span>
-                <v-icon>mdi-emoticon-wink</v-icon>
-
-                <template v-slot:action="{ attrs }">
-                  <v-btn
-                    icon
-                    v-bind="attrs"
-                    @click="showLoginErrorMessage = false"
-                  >
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                </template>
-              </v-snackbar>
-            </v-row>
+            <login-submit-button
+              :form-is-valid="formIsValid"
+              :loading="loading"
+              :showLoginErrorMessage="showLoginErrorMessage"
+              @login="tryLogin"
+              @close-error-message="showLoginErrorMessage = false"
+            />
           </v-form>
         </v-card-text>
       </v-card>
@@ -97,8 +68,10 @@
 
 <script>
 import { mapActions } from "vuex";
+import LoginSubmitButton from "../components/LoginSubmitButton.vue";
 
 export default {
+  components: { LoginSubmitButton },
   name: "Login",
 
   data() {

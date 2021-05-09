@@ -119,8 +119,7 @@ describe("Login.vue", () => {
       const inputValue = "email";
 
       const actualValue = wrapper.vm.getEmailValidationMessage(inputValue);
-      const expectedValue =
-        "Your e-mail should look something like yourname@email.com.";
+      const expectedValue = "Please, write a valid e-mail.";
       expect(actualValue).toBe(expectedValue);
     });
 
@@ -174,42 +173,6 @@ describe("Login.vue", () => {
         inputValue
       );
       expect(actualValue).toBeTruthy;
-    });
-  });
-
-  describe("Login button", () => {
-    it("renders disabled when form is invalid", () => {
-      wrapper = shallowMount(Login, {
-        localVue,
-        vuetify,
-        data() {
-          return {
-            formIsValid: false,
-          };
-        },
-      });
-
-      const button = wrapper.findComponent({ ref: "login-button" });
-
-      expect(button.exists()).toBe(true);
-      expect(button.attributes().disabled).toBe("true");
-    });
-
-    it("renders enabled when form is valid", () => {
-      wrapper = shallowMount(Login, {
-        localVue,
-        vuetify,
-        data() {
-          return {
-            formIsValid: true,
-          };
-        },
-      });
-
-      const button = wrapper.findComponent({ ref: "login-button" });
-
-      expect(button.exists()).toBe(true);
-      expect(button.attributes().disabled).toBeFalsy;
     });
   });
 });
