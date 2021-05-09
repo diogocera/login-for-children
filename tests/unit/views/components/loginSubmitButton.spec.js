@@ -37,4 +37,35 @@ describe("LoginSubmitButton", () => {
 
     expect(button.attributes().disabled).toBeFalsy();
   });
+
+  it("should emit an event when the action v-btn is clicked", async () => {
+    wrapper.setProps({
+      formIsValid: true,
+      loading: false,
+    });
+
+    const event = jest.fn();
+    const button = wrapper.findComponent({ ref: "login-submit-button" });
+
+    wrapper.vm.$on("login", event);
+
+    expect(event).toHaveBeenCalledTimes(0);
+
+    await button.trigger("click");
+
+    expect(event).toHaveBeenCalledTimes(1);
+  });
+
+  it("should emit an event when the action v-btn is clicked", async () => {
+    const event = jest.fn();
+    const button = wrapper.findComponent({ ref: "login-submit-button" });
+
+    wrapper.vm.$on("login", event);
+
+    expect(event).toHaveBeenCalledTimes(0);
+
+    await button.trigger("click");
+
+    expect(event).toHaveBeenCalledTimes(1);
+  });
 });
