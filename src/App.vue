@@ -1,10 +1,6 @@
 <template>
   <v-app style="background-color: #ffdaca">
-    <v-app-bar v-if="$route.name !== 'Login'" app flat color="transparent">
-      <v-spacer />
-
-      <app-nav-login-button />
-    </v-app-bar>
+    <app-nav-bar v-if="$route.name !== 'Login'" />
 
     <v-main>
       <router-view />
@@ -13,15 +9,11 @@
 </template>
 
 <script>
-import AppNavLoginButton from "./components/AppNavLoginButton.vue";
+import AppNavBar from "@/components/AppNavBar.vue";
 
 export default {
-  components: { AppNavLoginButton },
-
   name: "App",
 
-  data: () => ({
-    //
-  }),
+  components: { AppNavBar },
 };
 </script>
