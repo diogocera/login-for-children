@@ -3,15 +3,30 @@
     <v-row align="center" justify="center">
       <v-card>
         <v-card-text primary-title>
-          <v-form v-model="formIsValid" :disabled="loading" class="ma-5">
+          <v-form
+            v-model="formIsValid"
+            :disabled="loading"
+            lazy-validation
+            class="ma-5"
+          >
             <v-text-field
               v-model="email"
               :rules="emailRules"
               label="E-mail"
               required
               prepend-icon="mdi-email"
+              autocomplete="email"
               class="mb-3"
-            />
+            >
+              <template v-slot:append-outer>
+                <v-tooltip right>
+                  <template v-slot:activator="{ on }">
+                    <v-icon v-on="on"> mdi-help-circle-outline </v-icon>
+                  </template>
+                  Your e-mail should look something like "yourname@email.com"
+                </v-tooltip>
+              </template>
+            </v-text-field>
 
             <v-text-field
               v-model="password"
@@ -22,28 +37,39 @@
               prepend-icon="mdi-lock"
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showPassword = !showPassword"
+              autocomplete="password"
               class="mb-4"
-            />
+            >
+              <template v-slot:append-outer>
+                <v-tooltip right>
+                  <template v-slot:activator="{ on }">
+                    <v-icon v-on="on"> mdi-help-circle-outline </v-icon>
+                  </template>
+                  Your password will have 8 or more characters and may
+                  include<br />
+                  letters, numbers, or special characters like # @ _
+                </v-tooltip>
+              </template>
+            </v-text-field>
 
             <v-row justify="center">
               <v-btn
-                text
                 color="primary"
                 :disabled="!formIsValid"
                 :loading="loading"
                 @click="tryLogin"
+                ref="login-button"
               >
                 Login
               </v-btn>
 
               <v-snackbar
                 v-model="showLoginErrorMessage"
-                :timeout="4000"
                 color="error"
                 multi-line
               >
-                <span
-                  >No match was found for the combination of e-mail and password
+                <span>
+                  No match was found for the combination of e-mail and password
                   given.
                 </span>
                 <v-icon>mdi-emoticon-sad</v-icon>
@@ -88,13 +114,14 @@ export default {
           "Please, write your password on this box.",
         min: (value) =>
           this.doesPasswordHaveMinNumberCharacters(value) ||
-          "It should have at least 8 characters (letters, numbers, or special characters like #@_",
+          "The password has at least 8 characters",
       },
 
       formIsValid: false,
 
-      showLoginErrorMessage: false,
       loading: false,
+
+      showLoginErrorMessage: false,
     };
   },
 
@@ -105,7 +132,7 @@ export default {
       if (!this.isInputFilled(value)) {
         return "Please, write your e-mail on this box.";
       } else if (!this.isEmailValid(value)) {
-        return "Your e-mail should look something like yourname@email.com.";
+        return "Please, write a valid e-mail.";
       }
       return true;
     },
