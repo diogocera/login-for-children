@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 
 const login = {
   state: {
@@ -24,20 +24,40 @@ const login = {
   },
 
   actions: {
-    async login({ commit }, { email, password }) {
-      try {
-        const { data } = await axios.post("api.url/login", {
-          email: email,
-          password: password,
-        });
+    login({ commit }, { email }) {
+      return new Promise((resolve, reject) => {
+        // const data = await axios.post("api.url/login", {
+        //   email: email,
+        //   password: password,
+        // });
 
-        commit("setToken", data.token);
-        commit("setUsername", data.username);
-      } catch (error) {
-        return error.response;
-      }
+        mockLoginRequest(email)
+          .then((data) => {
+            commit("setToken", data.token);
+            commit("setUsername", data.username);
+            resolve();
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
     },
   },
 };
 
 export default login;
+
+function mockLoginRequest(email) {
+  return new Promise((resolve, reject) => {
+    let success = Math.random() < 0.5;
+    setTimeout(() => {
+      if (success) {
+        let token = Math.random().toString(36).substr(2);
+        let username = email.substr(0, email.indexOf("@"));
+        resolve({ token, username });
+      } else {
+        reject({ message: "Error" });
+      }
+    }, 1000);
+  });
+}
