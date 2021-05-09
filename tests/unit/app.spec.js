@@ -23,7 +23,7 @@ describe("App", () => {
       },
     });
 
-    expect(wrapper.findComponent(AppNavBar).exists()).toBeTruthy();
+    expect(wrapper.findComponent(AppNavBar).exists()).toBe(true);
   });
 
   it("doesn't render the nav bar if the route is '/login'", () => {
@@ -36,7 +36,7 @@ describe("App", () => {
       },
     });
 
-    expect(wrapper.findComponent(AppNavBar).exists()).toBeFalsy();
+    expect(wrapper.findComponent(AppNavBar).exists()).toBe(false);
   });
 
   it("renders a child component via routing", async () => {
@@ -50,7 +50,7 @@ describe("App", () => {
     await wrapper.vm.$nextTick();
 
     //Invalid test because both expectations are passing which is not possible or doesn't make sense
-    expect(wrapper.findComponent(HomePage).exists()).toBeTruthy();
-    expect(wrapper.findComponent(LoginPage).exists()).toBeTruthy();
+    expect(wrapper.findComponent(HomePage).exists()).toBe(true);
+    expect(wrapper.findComponent(LoginPage).exists()).toBe(true);
   });
 });

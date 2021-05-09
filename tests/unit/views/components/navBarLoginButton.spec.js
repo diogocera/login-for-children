@@ -26,7 +26,7 @@ describe("NavBarLoginButton", () => {
   it("changes the route path to '/login' when clicked", async () => {
     const button = wrapper.find("#login-button");
 
-    expect(button.exists()).toBeTruthy();
+    expect(button.exists()).toBe(true);
 
     await button.trigger("click");
 

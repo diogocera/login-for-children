@@ -23,28 +23,28 @@ describe("Login.vue", () => {
       const inputValue = null;
 
       const actualValue = wrapper.vm.isInputFilled(inputValue);
-      expect(actualValue).toBeFalsy();
+      expect(actualValue).toBe(false);
     });
 
     it("returns false when an empty string is passed", () => {
       const inputValue = "";
 
       const actualValue = wrapper.vm.isInputFilled(inputValue);
-      expect(actualValue).toBeFalsy();
+      expect(actualValue).toBe(false);
     });
 
     it("returns true when a not empty string is passed", () => {
       const inputValue = "test";
 
       const actualValue = wrapper.vm.isInputFilled(inputValue);
-      expect(actualValue).toBeTruthy();
+      expect(actualValue).toBe(true);
     });
 
     it("returns true when a not number is passed", () => {
       const inputValue = "test";
 
       const actualValue = wrapper.vm.isInputFilled(inputValue);
-      expect(actualValue).toBeTruthy();
+      expect(actualValue).toBe(true);
     });
   });
 
@@ -60,42 +60,42 @@ describe("Login.vue", () => {
       const inputValue = "";
 
       const actualValue = wrapper.vm.isEmailValid(inputValue);
-      expect(actualValue).toBeFalsy();
+      expect(actualValue).toBe(false);
     });
 
     it("returns false when a number is passed", () => {
       const inputValue = 10;
 
       const actualValue = wrapper.vm.isEmailValid(inputValue);
-      expect(actualValue).toBeFalsy();
+      expect(actualValue).toBe(false);
     });
 
     it("returns false when an email without username is passed", () => {
       const inputValue = "@email.com";
 
       const actualValue = wrapper.vm.isEmailValid(inputValue);
-      expect(actualValue).toBeFalsy();
+      expect(actualValue).toBe(false);
     });
 
     it("returns false when an email without @ symbols passed", () => {
       const inputValue = "test.email.com";
 
       const actualValue = wrapper.vm.isEmailValid(inputValue);
-      expect(actualValue).toBeFalsy();
+      expect(actualValue).toBe(false);
     });
 
     it("returns false when an email without domain passed", () => {
       const inputValue = "test@email";
 
       const actualValue = wrapper.vm.isEmailValid(inputValue);
-      expect(actualValue).toBeFalsy();
+      expect(actualValue).toBe(false);
     });
 
     it("returns true when a valid email passed", () => {
       const inputValue = "test@email.com";
 
       const actualValue = wrapper.vm.isEmailValid(inputValue);
-      expect(actualValue).toBeTruthy();
+      expect(actualValue).toBe(true);
     });
   });
 
@@ -146,7 +146,7 @@ describe("Login.vue", () => {
       const actualValue = wrapper.vm.doesPasswordHaveMinNumberCharacters(
         inputValue
       );
-      expect(actualValue).toBeFalsy();
+      expect(actualValue).toBe(false);
     });
 
     it("returns false when a string with less than 8 characters is passed", () => {
@@ -155,7 +155,7 @@ describe("Login.vue", () => {
       const actualValue = wrapper.vm.doesPasswordHaveMinNumberCharacters(
         inputValue
       );
-      expect(actualValue).toBeFalsy();
+      expect(actualValue).toBe(false);
     });
 
     it("returns true when a string with 8 characters is passed", () => {
@@ -174,6 +174,42 @@ describe("Login.vue", () => {
         inputValue
       );
       expect(actualValue).toBeTruthy;
+    });
+  });
+
+  describe("Login button", () => {
+    it("renders disabled when form is invalid", () => {
+      wrapper = shallowMount(Login, {
+        localVue,
+        vuetify,
+        data() {
+          return {
+            formIsValid: false,
+          };
+        },
+      });
+
+      const button = wrapper.findComponent({ ref: "login-button" });
+
+      expect(button.exists()).toBe(true);
+      expect(button.attributes().disabled).toBe("true");
+    });
+
+    it("renders enabled when form is valid", () => {
+      wrapper = shallowMount(Login, {
+        localVue,
+        vuetify,
+        data() {
+          return {
+            formIsValid: true,
+          };
+        },
+      });
+
+      const button = wrapper.findComponent({ ref: "login-button" });
+
+      expect(button.exists()).toBe(true);
+      expect(button.attributes().disabled).toBeFalsy;
     });
   });
 });
