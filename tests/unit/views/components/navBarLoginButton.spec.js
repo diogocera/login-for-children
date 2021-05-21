@@ -28,8 +28,7 @@ describe("NavBarLoginButton", () => {
 
     expect(button.exists()).toBe(true);
 
-    await button.trigger("click");
-
-    expect(wrapper.vm.$route.path).toBe("/login");
+    await button.trigger('click')
+    expect(wrapper.vm.$route.name).toBe('Login');
   });
 });

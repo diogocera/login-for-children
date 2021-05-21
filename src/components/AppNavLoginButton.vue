@@ -1,8 +1,8 @@
 <template>
-  <v-btn to="/login" text id="login-button">
+  <router-link to="/login" text id="login-button">
     <span class="mr-2">Login</span>
     <v-icon>mdi-login</v-icon>
-  </v-btn>
+  </router-link>
 </template>
 
 <script>
